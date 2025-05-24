@@ -55,3 +55,15 @@ create_repo() {
   echo "Repoer: Create repository success!"
 }
 
+case "$1" in
+  create)
+    shift
+    create_repo "$@"
+    ;;
+  help|--help|-h)
+    default_help
+    ;;
+  *)
+    default_help
+    ;;
+esac
