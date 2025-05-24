@@ -1,0 +1,8 @@
+#Local environment settings
+.env
+*.env
+
+#IDE
+.idea/
+.vscode/
+*.iml
