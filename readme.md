@@ -1,3 +1,10 @@
+## Prepared
+1. **Get your github token**
+   Settings -> Developer Settings -> Personal access tokens
+2. **Export your github token**
+   ```bash
+   export GITIHUB_TOKEN=ghp_yourToken
+   ```
 ## Guide
 1. **Save the script**  
    Download or move the `repo` script into a folder on your `PATH`, for example:
