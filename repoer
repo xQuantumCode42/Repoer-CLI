@@ -4,12 +4,12 @@ set -e
 
 default_help() {
   cat <<EOF
-Usage: repo <command> [arguments]
+Usage: repoer <command> [arguments]
 Commands:
   create    Create a new GitHub repository and push current directory
   help      Show this help message
 Examples:
-  repo create Awesome-Repo "My awesome project" true
+  repoer create Awesome-Repo "My awesome project" true
 EOF
   exit 1
 }
@@ -25,17 +25,18 @@ create_repo() {
   fi
 
   echo "Creating repo: $repo_name"
-  response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-    -d "{\"name\": \"$repo_name\"}, \"description\": \"$repo_description\", \
-    \"private\": $is_private}" https://api.github.com/user/repos)
+  local payload
+  payload="{"
+  payload+="\"name\":\"$repo_name\""
+  payload+=",\"description\":\"$repo_description\""
+  payload+=",\"private\":$is_private"
+  payload+="}"
 
-  clone_url=$(echo "$response" | grep -o '"clone_url": *"[^"]*' | cut -d '"' -f4)
-  if [[ -z "$clone_url" ]]; then
-    echo "Failed to create repository. Response:"
-    echo "$response"
-    exit 1
-  fi
-  echo "Repository created: $clone_url"
+  response=$(curl -s \
+    -H "Authorization: token $GITHUB_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d "$payload" \
+    https://api.github.com/user/repos)
 
   if [[ ! -d .git ]]; then
     echo "Initializing local git repository ..."
@@ -45,7 +46,22 @@ create_repo() {
   if git remote | grep origin &>/dev/null; then
     git remote remove origin
   fi
-  git remote add origin "$clone_url"
+
+  ssh_url=$(echo "$response" | grep -o '"ssh_url": *"[^"]*' | cut -d '"' -f4)
+  https_url=$(echo "$response" | grep -o '"clone_url": *"[^"]*' | cut -d '"' -f4)
+  if [[ -n "$ssh_url" ]]; then
+    echo "Using SSH URL: $ssh_url"
+    git remote add origin "$ssh_url"
+  else
+    if [[ -n "$https_url" ]]; then
+      echo "Using HTTPS URL: $https_url"
+      git remote add origin "$https_url"
+    else
+      echo "Failed to create repository. Response:"
+      echo "$response"
+      exit 1
+    fi
+  fi
 
   git add .
   git commit -m "Initial commit" || true
