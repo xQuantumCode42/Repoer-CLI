@@ -7,16 +7,20 @@
    ```
 ## Guide
 1. **Save the script**  
-   Download or copy the `repo` script into a folder on your `PATH`, for example:
+   Download or copy the `repoer` script into a folder on your `PATH`, for example:
    ```bash
-   cp repo ~/bin/
+   mkdir -p ~/bin
+   cp repoer ~/bin/
    ```
    (Ensure ~/bin is in your PATH.)
+   ```bash
+   export PATH="$HOME/bin:$PATH"
+   ```
 2. **Make it executable**
     ```bash
-   chmod +x ~/bin/repo
+   chmod +x ~/bin/repoer
     ```
 3. **Use the CLI**
     ``` bash
-    repo create <repo-name> [description] [isPrivate]
+    repoer create <repo-name> [description] [isPrivate]
     ```
