@@ -7,9 +7,9 @@
    ```
 ## Guide
 1. **Save the script**  
-   Download or move the `repo` script into a folder on your `PATH`, for example:
+   Download or copy the `repo` script into a folder on your `PATH`, for example:
    ```bash
-   mv repo ~/bin/
+   cp repo ~/bin/
    ```
    (Ensure ~/bin is in your PATH.)
 2. **Make it executable**
