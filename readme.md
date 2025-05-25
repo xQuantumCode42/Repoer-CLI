@@ -2,17 +2,21 @@
 1. **Get your github token**
    Settings -> Developer Settings -> Personal access tokens
 2. **Export your github token**
+
+   (In ~/.bashrc)
    ```bash
    export GITIHUB_TOKEN=ghp_yourToken
    ```
+3. (Optional) **Export your github user/password**
+4. (Optional) **Or setting ssh credential on your pc**
 ## Guide
 1. **Save the script**  
    Download or copy the `repoer` script into a folder on your `PATH`, for example:
    ```bash
    mkdir -p ~/bin
-   cp repoer ~/bin/
+   cp -f repoer ~/bin/
    ```
-   (Ensure ~/bin is in your PATH.)
+   (In ~/.bashrc)
    ```bash
    export PATH="$HOME/bin:$PATH"
    ```
